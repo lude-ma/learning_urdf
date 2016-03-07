@@ -1,202 +1,199 @@
+<?xml version="1.0" ?>
+
 <robot name="r2d2">
-    <link name="axis">
-        <inertial>
-            <mass value="1"/>
-            <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
-            <origin/>
-        </inertial>
-        <visual>
-            <origin xyz="0 0 0" rpy="1.57 0 0"/>
-            <geometry>
-                <cylinder radius="0.01" length=".5"/>
-            </geometry>
-            <material name="gray">
-                <color rgba=".2 .2 .2 1"/>
-            </material>
-        </visual>
-        <collision>
-            <origin xyz="0 0 0" rpy="1.57 0 0"/>
-            <geometry>
-                <cylinder radius="0.01" length=".5"/>
-            </geometry>
-            <contact_coefficients mu="0" kp="1000.0" kd="1.0"/>
-        </collision>
-    </link>
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+    <material name="blue">
+        <color rgba="0 0 .8 1"/>
+    </material>
 
-    <link name="leg1">
-        <inertial>
-            <mass value="1"/>
-            <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
-            <origin/>
-        </inertial>
-        <visual>
-            <origin xyz="0 0 -.3"/>
-            <geometry>
-                <box size=".20 .10 .8"/>
-            </geometry>
-            <material name="white">
-                <color rgba="1 1 1 1"/>
-            </material>
-        </visual>
-        <collision>
-            <origin xyz="0 0 -.3"/>
-            <geometry>
-                <box size=".20 .10 .8"/>
-            </geometry>
-            <contact_coefficients mu="0" kp="1000.0" kd="1.0"/>
-        </collision>
-    </link>
-
-    <joint name="leg1connect" type="fixed">
-        <origin xyz="0 .30 0"/>
-        <parent link="axis"/>
-        <child link="leg1"/>
-    </joint>
-
-    <link name="leg2">
-        <inertial>
-            <mass value="1"/>
-            <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
-            <origin/>
-        </inertial>
-        <visual>
-            <origin xyz="0 0 -.3"/>
-            <geometry>
-                <box size=".20 .10 .8"/>
-            </geometry>
-            <material name="white">
-                <color rgba="1 1 1 1"/>
-            </material>
-        </visual>
-        <collision>
-            <origin xyz="0 0 -.3"/>
-            <geometry>
-                <box size=".20 .10 .8"/>
-            </geometry>
-            <contact_coefficients mu="0" kp="1000.0" kd="1.0"/>
-        </collision>
-    </link>
-
-    <joint name="leg2connect" type="fixed">
-        <origin xyz="0 -.30 0"/>
-        <parent link="axis"/>
-        <child link="leg2"/>
-    </joint>
 
     <link name="body">
-        <inertial>
-            <mass value="1"/>
-            <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
-            <origin/>
-        </inertial>
         <visual>
-            <origin xyz="0 0 -0.2"/>
             <geometry>
-                <cylinder radius=".20" length=".6"/>
+                <cylinder length=".6" radius=".2"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+    </link>
+
+
+    <link name="right_leg">
+        <visual>
+            <geometry>
+                <box size=".6 .2 .1"/>
+            </geometry>
+            <origin xyz="0 0 -0.3" rpy="0 1.5707 0"/>
+            <material name="white"/>
+        </visual>
+    </link>
+
+    <joint name="body_to_right_leg" type="fixed">
+        <parent link="body"/>
+        <child link="right_leg"/>
+        <!-- origin relative to parent's frame -->
+        <origin xyz=".22 0 .25"/>
+    </joint>
+
+    <link name="right_foot">
+        <visual>
+            <geometry>
+                <box size=".1 .4 .1"/>
             </geometry>
             <material name="white"/>
         </visual>
-        <collision>
-            <origin xyz="0 0 0.2"/>
-            <geometry>
-                <cylinder radius=".20" length=".6"/>
-            </geometry>
-            <contact_coefficients mu="0" kp="1000.0" kd="1.0"/>
-        </collision>
     </link>
 
-    <joint name="tilt" type="revolute">
-        <parent link="axis"/>
-        <child link="body"/>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <axis xyz="0 1 0"/>
-        <limit upper="0" lower="-.5" effort="10" velocity="10"/>
+    <joint name="right_leg_to_foot" type="fixed">
+        <parent link="right_leg"/>
+        <child link="right_foot"/>
+        <origin xyz="0 0 -.6"/>
     </joint>
+
+    <link name="right_front_wheel">
+        <visual>
+            <geometry>
+                <cylinder length=".1" radius=".035"/>
+            </geometry>
+            <material name="black"/>
+            <origin rpy="0 1.5707 0"/>
+        </visual>
+    </link>
+
+    <joint name="right_foot_to_front" type="fixed">
+        <parent link="right_foot"/>
+        <child link="right_front_wheel"/>
+        <origin xyz="0 .13 -.05"/>
+    </joint>
+
+    <link name="right_rear_wheel">
+        <visual>
+            <geometry>
+                <cylinder length=".1" radius=".035"/>
+            </geometry>
+            <material name="black"/>
+            <origin rpy="0 1.5707 0"/>
+        </visual>
+    </link>
+
+    <joint name="right_foot_to_rear" type="fixed">
+        <parent link="right_foot"/>
+        <child link="right_rear_wheel"/>
+        <origin xyz="0 -.13 -.05"/>
+    </joint>
+
+
+    <link name="left_leg">
+        <visual>
+            <geometry>
+                <box size=".6 .2 .1"/>
+            </geometry>
+            <origin xyz="0 0 -0.3" rpy="0 1.5707 0"/>
+            <material name="white"/>
+        </visual>
+    </link>
+
+    <joint name="body_to_left_leg" type="fixed">
+        <parent link="body"/>
+        <child link="left_leg"/>
+        <!-- origin relative to parent's frame -->
+        <origin xyz="-.22 0 .25"/>
+    </joint>
+
+    <link name="left_foot">
+        <visual>
+            <geometry>
+                <box size=".1 .4 .1"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+    </link>
+
+    <joint name="left_leg_to_foot" type="fixed">
+        <parent link="left_leg"/>
+        <child link="left_foot"/>
+        <origin xyz="0 0 -.6"/>
+    </joint>
+
+    <link name="left_front_wheel">
+        <visual>
+            <geometry>
+                <cylinder length=".1" radius=".035"/>
+            </geometry>
+            <material name="black"/>
+            <origin rpy="0 1.5707 0"/>
+        </visual>
+    </link>
+
+    <joint name="left_foot_to_front" type="fixed">
+        <parent link="left_foot"/>
+        <child link="left_front_wheel"/>
+        <origin xyz="0 .13 -.05"/>
+    </joint>
+
+    <link name="left_rear_wheel">
+        <visual>
+            <geometry>
+                <cylinder length=".1" radius=".035"/>
+            </geometry>
+            <material name="black"/>
+            <origin rpy="0 1.5707 0"/>
+        </visual>
+    </link>
+
+    <joint name="left_foot_to_rear" type="fixed">
+        <parent link="left_foot"/>
+        <child link="left_rear_wheel"/>
+        <origin xyz="0 -.13 -.05"/>
+    </joint>
+
 
     <link name="head">
-        <inertial>
-            <mass value="1"/>
-            <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
-            <origin/>
-        </inertial>
         <visual>
             <geometry>
-                <sphere radius=".4"/>
+                <sphere radius=".2"/>
             </geometry>
             <material name="white"/>
         </visual>
-        <collision>
-            <origin/>
-            <geometry>
-                <sphere radius=".4"/>
-            </geometry>
-            <contact_coefficients mu="0" kp="1000.0" kd="1.0"/>
-        </collision>
     </link>
 
-    <joint name="swivel" type="continuous">
-        <origin xyz="0 0 0.1"/>
-        <axis xyz="0 0 1"/>
+    <joint name="head_swivel" type="fixed">
         <parent link="body"/>
         <child link="head"/>
+        <origin xyz="0 0 0.3"/>
     </joint>
 
-    <link name="rod">
-        <inertial>
-            <mass value="1"/>
-            <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
-            <origin/>
-        </inertial>
+    <link name="eye_pole">
         <visual>
-            <origin xyz="0 0 -.1"/>
             <geometry>
-                <cylinder radius=".02" length=".2"/>
+                <cylinder length="0.3" radius="0.02"/>
             </geometry>
-            <material name="gray"/>
+            <material name="white"/>
+            <origin xyz="0 0 -.15"/>
         </visual>
-        <collision>
-            <origin/>
-            <geometry>
-                <cylinder radius=".02" length=".2"/>
-            </geometry>
-            <contact_coefficients mu="0" kp="1000.0" kd="1.0"/>
-        </collision>
     </link>
 
-    <joint name="periscope" type="prismatic">
-        <origin xyz=".12 0 .15"/>
-        <axis xyz="0 0 1"/>
-        <limit upper="0" lower="-.5" effort="10" velocity="10"/>
+    <joint name="eye_extension" type="fixed">
         <parent link="head"/>
-        <child link="rod"/>
+        <child link="eye_pole"/>
+        <origin xyz="-.04 .1414 .1414" rpy="0 0 0"/>
     </joint>
 
-    <link name="box">
-        <inertial>
-            <mass value="1"/>
-            <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
-            <origin/>
-        </inertial>
+    <link name="eye">
         <visual>
             <geometry>
-                <box size=".05 .05 .05"/>
+                <box size=".08 .08 .08"/>
             </geometry>
-            <material name="blue">
-                <color rgba="0 0 1 1"/>
-            </material>
+            <material name="blue"/>
         </visual>
-        <collision>
-            <origin/>
-            <geometry>
-                <box size=".05 .05 .05"/>
-            </geometry>
-            <contact_coefficients mu="0" kp="1000.0" kd="1.0"/>
-        </collision>
     </link>
 
-    <joint name="boxconnect" type="fixed">
-        <origin xyz="0 0 0"/>
-        <parent link="rod"/>
-        <child link="box"/>
+    <joint name="eye_pole_to_eye" type="fixed">
+        <parent link="eye_pole"/>
+        <child link="eye"/>
     </joint>
 </robot>
