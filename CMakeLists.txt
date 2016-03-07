@@ -8,6 +8,9 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   urdf
+  tf
+  sensor_msgs
+  std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -128,14 +131,24 @@ include_directories(
 # add_dependencies(learning_urdf ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(parser src/parser.cpp)
+add_executable(
+    parser src/parser.cpp
+)
+add_executable(
+    state_publisher src/state_publisher.cpp
+)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(learning_urdf_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(parser ${catkin_LIBRARIES})
+target_link_libraries(
+    parser ${catkin_LIBRARIES}
+)
+target_link_libraries(
+    state_publisher ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
