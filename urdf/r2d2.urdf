@@ -164,7 +164,7 @@
     <joint name="head_swivel" type="fixed">
         <parent link="body"/>
         <child link="head"/>
-        <origin xyz="0 0 0.3"/>
+        <origin xyz="0 0 .3"/>
     </joint>
 
     <link name="eye_pole">
