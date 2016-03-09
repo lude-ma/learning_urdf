@@ -161,10 +161,11 @@
         </visual>
     </link>
 
-    <joint name="head_swivel" type="fixed">
+    <joint name="head_swivel" type="continuous">
         <parent link="body"/>
         <child link="head"/>
         <origin xyz="0 0 .3"/>
+        <axis xyz="0 0 1"/>
     </joint>
 
     <link name="eye_pole">

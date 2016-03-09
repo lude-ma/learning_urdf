@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
         joint_state.header.stamp = ros::Time::now();
         joint_state.name.resize(3);
         joint_state.position.resize(3);
-        joint_state.name[0] ="swivel";
+        joint_state.name[0] ="head_swivel";
         joint_state.position[0] = swivel;
         joint_state.name[1] ="tilt";
         joint_state.position[1] = tilt;
