@@ -32,11 +32,12 @@
         </visual>
     </link>
 
-    <joint name="body_to_right_leg" type="fixed">
+    <joint name="body_to_right_leg" type="revolute">
         <parent link="body"/>
         <child link="right_leg"/>
         <!-- origin relative to parent's frame -->
         <origin xyz=".22 0 .25"/>
+        <limit lower="-.2" upper=".2" effort="10" velocity="3.0"/>
     </joint>
 
     <link name="right_foot">
@@ -97,11 +98,12 @@
         </visual>
     </link>
 
-    <joint name="body_to_left_leg" type="fixed">
+    <joint name="body_to_left_leg" type="revolute">
         <parent link="body"/>
         <child link="left_leg"/>
         <!-- origin relative to parent's frame -->
         <origin xyz="-.22 0 .25"/>
+        <limit lower="-.2" upper=".2" effort="10" velocity="3.0"/>
     </joint>
 
     <link name="left_foot">

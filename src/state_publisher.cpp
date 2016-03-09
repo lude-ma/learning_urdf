@@ -24,14 +24,16 @@ int main(int argc, char** argv) {
     while (ros::ok()) {
         //update joint_state
         joint_state.header.stamp = ros::Time::now();
-        joint_state.name.resize(3);
-        joint_state.position.resize(3);
+        joint_state.name.resize(4);
+        joint_state.position.resize(4);
         joint_state.name[0] ="head_swivel";
         joint_state.position[0] = swivel;
-        joint_state.name[1] ="tilt";
-        joint_state.position[1] = tilt;
-        joint_state.name[2] ="periscope";
-        joint_state.position[2] = height;
+        joint_state.name[1] ="periscope";
+        joint_state.position[1] = height;
+        joint_state.name[2] ="body_to_right_leg";
+        joint_state.position[2] = tilt;
+        joint_state.name[3] ="body_to_left_leg";
+        joint_state.position[3] = -1*tilt;
 
 
         // update transform
@@ -39,8 +41,8 @@ int main(int argc, char** argv) {
         odom_trans.header.stamp = ros::Time::now();
         odom_trans.transform.translation.x = cos(angle)*2;
         odom_trans.transform.translation.y = sin(angle)*2;
-        odom_trans.transform.translation.z = .7;
-        odom_trans.transform.rotation = tf::createQuaternionMsgFromYaw(angle+M_PI/2);
+        odom_trans.transform.translation.z = .4;
+        odom_trans.transform.rotation = tf::createQuaternionMsgFromYaw(angle);
 
         //send the joint state and transform
         joint_pub.publish(joint_state);
@@ -48,7 +50,7 @@ int main(int argc, char** argv) {
 
         // Create new robot state
         tilt += tinc;
-        if (tilt<-.5 || tilt>0) tinc *= -1;
+        if (tilt<-.2 || tilt>.2) tinc *= -1;
         height += hinc;
         if (height>.2 || height<0) hinc *= -1;
         swivel += degree;
