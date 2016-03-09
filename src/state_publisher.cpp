@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
     geometry_msgs::TransformStamped odom_trans;
     sensor_msgs::JointState joint_state;
     odom_trans.header.frame_id = "odom";
-    odom_trans.child_frame_id = "axis";
+    odom_trans.child_frame_id = "body";
 
     while (ros::ok()) {
         //update joint_state
